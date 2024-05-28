@@ -24,7 +24,7 @@ col_invert <- rev(coloursofthewind)
 
 # rm(lm, max, frames, path, col.heatmap, atlas.mesh, atlas.lms)
 
-morph.hm.gif <- function(lm, max = 1, frames = 30, path, col.heatmap, atlas.lms, atlas.mesh, control.morph = gpa$consensus){
+morph.hm.gif <- function(lm, max = 1, frames = 30, path, col.heatmap, atlas.lms, atlas.mesh, control.morph = gpa$consensus, view = "top"){
   frames <- frames/2
   selected.scores <- c(seq(-max, max, length.out = frames), seq(max, -max, length.out = frames))
   file.names <- paste0("temp", 1:length(selected.scores), ".png")
@@ -59,8 +59,8 @@ morph.hm.gif <- function(lm, max = 1, frames = 30, path, col.heatmap, atlas.lms,
     pred.mesh <- tps3d(atlas.mesh, atlas.lms, pred.lm[,,1])
 
     meshDist(pred.mesh, control.morph, rampcolors = col.heatmap, steps = 100, from = -dists, to = dists)
-    view3d(180, -90, 0) #side view
-    # view3d(180, 0, 0) #front view
+    if (view == "top"){view3d(180, 0, 0)}
+    if (view == "side"){view3d(180, -90, 0)}
     par3d(windowRect = c(20, 30, 800, 800))
     rgl.snapshot(paste0(path, "/", file.names[i]))
     close3d()
